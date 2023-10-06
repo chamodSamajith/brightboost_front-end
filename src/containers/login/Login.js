@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useNavigate } from 'react-router-dom'; 
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -13,12 +14,14 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
+import useAuth from "../../hooks/useAuth"
+
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
       <Link color="inherit" href="https://mui.com/">
-        Your Website
+        BrightBoost Admin
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -29,14 +32,22 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 const Login = () => {
+  const navigate = useNavigate();
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+
+    if( data.get('email') !=="" && data.get('password')!==""){
+      window.sessionStorage.setItem("IsLoggedIn", true);
+      navigate('/');
+      console.log({
+        email: data.get('email'),
+        password: data.get('password'),
+      });
+      // useAuth();
+    }
+
   };
 
   return (
@@ -67,6 +78,7 @@ const Login = () => {
               alignItems: 'center',
             }}
           >
+          <h4>BeightBoost Admin</h4>
             <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
               <LockOutlinedIcon />
             </Avatar>

@@ -1,7 +1,8 @@
 const useAuth = () => {
     //will completed with the API integraiton 
-    //isLoggedIn = window.sessionStorage.getItem("IsLoggedin");
-    return true;
+    let isLoggedIn = window.sessionStorage.getItem("IsLoggedin");
+    console.log("isLoggedIn",isLoggedIn);
+    return isLoggedIn;
   };
   
   export default useAuth;

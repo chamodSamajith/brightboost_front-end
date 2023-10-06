@@ -1,13 +1,11 @@
 import React from "react";
-// import { Link } from "react-router-dom";
 import { Box, Button, IconButton, Toolbar, styled } from "@mui/material";
 import {
-  // AccountCircle,
   Menu,
 } from "@mui/icons-material";
 import MuiAppBar from "@mui/material/AppBar";
 
-// import { Assets } from "../../assets";
+
 const DRAWER_WIDTH=240
 
 const AppBar = styled(MuiAppBar, {
@@ -51,11 +49,7 @@ const HeaderBar = ({ isOpen, toggleDrawer, handleLogout }) => {
             height: "64px",
           }}
         >
-          {/* <img src={Assets.menu.logo} alt="logo" height="60px" /> */}
         </Box>
-        {/* <IconButton color="inherit" component={Link} to="/profile">
-          <AccountCircle />
-        </IconButton> */}
         <Button
           color="inherit"
           sx={{ textTransform: "none" }}

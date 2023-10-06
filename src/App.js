@@ -7,6 +7,8 @@ import Login from "./containers/login/Login.js"
 import PublicRoutes from "./routes/PublicRoutes.js"
 import Dashboard from "./containers/dashboard/Dashboard.js"
 import Layout from "./components/layout/index.js"
+import Admin from "./containers/admin/Admin.js"
+import Session from "./containers/session/Session.js"
 
 function App({props}) {
   return (
@@ -19,6 +21,8 @@ function App({props}) {
 
        <Route element={<Layout {...props} />}>
        <Route path="/" element={<Dashboard />} />
+       <Route path="/admin" element={<Admin/>}/>
+       <Route path="/session" element={<Session/>}/>
        </Route>
 
        </Routes>

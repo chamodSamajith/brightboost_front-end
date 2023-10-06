@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-// import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import {
   IconButton,
@@ -11,19 +10,14 @@ import {
   ListItemIcon,
   ListItemButton,
   Typography,
-  Collapse,
 } from "@mui/material";
 import MuiDrawer from "@mui/material/Drawer";
 import {
   ChevronLeft,
-  TableView,
-  ExpandLess,
-  ExpandMore,
 } from "@mui/icons-material";
 
-const DRAWER_WIDTH=240
+const DRAWER_WIDTH = 240
 
-// import Loading from "../Loading";
 
 const Drawer = styled(MuiDrawer, {
   shouldForwardProp: (prop) => prop !== "open",
@@ -51,16 +45,14 @@ const Drawer = styled(MuiDrawer, {
   },
 }));
 
-const SideDrawer = ({ isOpen, toggleDrawer, menuItems, reports }) => {
+const SideDrawer = ({ menuItems }) => {
   const location = useLocation();
 
-  // const { isGettingLoggedUserSideMenu, isErrorGettingLoggedUserSideMenu } =
-  //   useSelector((state) => state.login);
+  const [open, setOpen] = useState(true);
 
-  const [open, setOpen] = useState(false);
-
-  const handleClick = () => {
-    setOpen(!open);
+  const handleToggle = () => {
+    //temporary disabled
+    //setOpen(!open);
   };
 
   const handleScroll = () => {
@@ -69,7 +61,7 @@ const SideDrawer = ({ isOpen, toggleDrawer, menuItems, reports }) => {
   };
 
   return (
-    <Drawer variant="permanent" open={isOpen}>
+    <Drawer variant="permanent" open={open}>
       <Toolbar
         sx={{
           display: "flex",
@@ -82,48 +74,40 @@ const SideDrawer = ({ isOpen, toggleDrawer, menuItems, reports }) => {
         <Typography variant="h6" color="#681F6E" fontWeight={"bold"}>
           ADMIN
         </Typography>
-        <IconButton onClick={toggleDrawer}>
+        <IconButton onClick={handleToggle}>
           <ChevronLeft />
         </IconButton>
       </Toolbar>
-
       <Divider />
 
-      {/* {isGettingLoggedUserSideMenu ? (
-        <Loading />
-      ) : */}
-       (
-        <>
-          {/* {!isErrorGettingLoggedUserSideMenu && ( */}
-            <List>
-              {menuItems && menuItems.length > 0 && (
-                <>
-                  {menuItems.map((item) => (
-                    <ListItemButton
-                      key={item.label}
-                      component={Link}
-                      to={item.path}
-                      selected={location.pathname === item.path}
-                      onClick={handleScroll}
-                    >
-                      <ListItemIcon sx={{ color: "#681F6E" }}>
-                        {item.icon}
-                      </ListItemIcon>
-                      <ListItemText
-                        primary={item.label}
-                        primaryTypographyProps={{
-                          fontSize: 14,
-                          color: "#8D8D8D",
-                        }}
-                      />
-                    </ListItemButton>
-                  ))}
-                </>
-              )}
-            </List>
-          // )}
-        </>
-      )}
+      <>
+        <List>
+          {menuItems && menuItems.length > 0 && (
+            <>
+              {menuItems.map((item) => (
+                <ListItemButton
+                  key={item.label}
+                  component={Link}
+                  to={item.path}
+                  selected={location.pathname === item.path}
+                  onClick={handleScroll}
+                >
+                  <ListItemIcon sx={{ color: "#681F6E" }}>
+                    {item.icon}
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={item.label}
+                    primaryTypographyProps={{
+                      fontSize: 14,
+                      color: "#8D8D8D",
+                    }}
+                  />
+                </ListItemButton>
+              ))}
+            </>
+          )}
+        </List>
+      </>
     </Drawer>
   );
 };
