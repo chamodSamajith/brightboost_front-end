@@ -14,7 +14,7 @@ const Admin = () => {
         }}
       >
         <Typography align="center" variant="h5">
-         BrigtBoost admin landing page
+         BrightBoost admin landing page
         </Typography>
       </Box>
     )

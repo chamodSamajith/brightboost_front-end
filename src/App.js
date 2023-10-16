@@ -9,6 +9,7 @@ import Dashboard from "./containers/dashboard/Dashboard.js"
 import Layout from "./components/layout/index.js"
 import Admin from "./containers/admin/Admin.js"
 import Session from "./containers/session/Session.js"
+import Register from "./containers/register/Register.js"
 
 function App({props}) {
   return (
@@ -17,6 +18,7 @@ function App({props}) {
           {/* Routes which are accessible without login */}
       <Route element={<PublicRoutes />}>
       <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register/>}/>
       </Route>
 
        <Route element={<Layout {...props} />}>
@@ -24,6 +26,7 @@ function App({props}) {
        <Route path="/admin" element={<Admin/>}/>
        <Route path="/session" element={<Session/>}/>
        </Route>
+
 
        </Routes>
     </Router>
