@@ -10,6 +10,7 @@ import Layout from "./components/layout/index.js"
 import Admin from "./containers/admin/Admin.js"
 import Session from "./containers/session/Session.js"
 import Register from "./containers/register/Register.js"
+import JoinSession from './containers/session/JoinSession/JoinSession';
 
 function App({props}) {
   return (
@@ -25,6 +26,7 @@ function App({props}) {
        <Route path="/" element={<Dashboard />} />
        <Route path="/admin" element={<Admin/>}/>
        <Route path="/session" element={<Session/>}/>
+       <Route path="/join-session/:id" element={<JoinSession/>}/>
        </Route>
 
 
