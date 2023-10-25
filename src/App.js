@@ -13,6 +13,7 @@ import Register from "./containers/register/Register.js"
 import JoinSession from './containers/session/JoinSession/JoinSession';
 import toast, { Toaster } from 'react-hot-toast';
 import QuestionsAnswers from './containers/question-answers/question-answers';
+import TutorLanding from './containers/tutor/TutorLanding'
 
 function App({props}) {
   return (
@@ -31,8 +32,8 @@ function App({props}) {
        <Route path="/session" element={<Session/>}/>
        <Route path="/join-session/" element={<JoinSession/>}/>
        <Route path="/question-answers/" element={<QuestionsAnswers/>}/>
-       </Route>
-
+       <Route path="/tutor" element={<TutorLanding/>}/>
+       </Route> 
 
        </Routes>
     </Router>
