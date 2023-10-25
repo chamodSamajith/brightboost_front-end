@@ -1,0 +1,5 @@
+.btn-submit{
+    display: flex;
+    justify-content: end;
+    padding-top: 20px;
+}
