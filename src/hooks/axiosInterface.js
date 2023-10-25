@@ -1,7 +1,8 @@
+import axios from "axios";
 import { baseURL} from "../environment/environment.js"
 
 const api = axios.create({
-    baseURL: base_url,
+    baseURL: baseURL,
   });
 
   export const apiCall = async (url, method = 'GET', data = null) => {
