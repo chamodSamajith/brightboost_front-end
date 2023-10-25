@@ -22,8 +22,9 @@ function App({props}) {
       </Route>
 
        <Route element={<Layout {...props} />}>
-       <Route path="/" element={<Dashboard />} />
+       <Route path="/" element={<Login />} />
        <Route path="/admin" element={<Admin/>}/>
+       <Route path="/dashboard" element={<Dashboard/>}/>
        <Route path="/session" element={<Session/>}/>
        </Route>
 
