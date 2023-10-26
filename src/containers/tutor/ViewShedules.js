@@ -6,11 +6,18 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import toast from 'react-hot-toast';
 import Box from '@mui/material/Box';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
 
 const ViewShedules = () => {
   const [data, setData] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null);
+  const [editSelectedRow, setEditSelectedRow] = useState(null);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [tutorName, setTutorName] = useState('');
+  const [tutors, setTutors] = useState([]);
+  const [editedTutorName, setEditedTutorName] = useState('');
 
   const style = {
     position: 'absolute',
@@ -80,8 +87,42 @@ const ViewShedules = () => {
       });
   }, []);
 
-  const handleEdit = () => {
-    // Handle edit logic here
+  const handleTutorNameChange = (event) => {
+    setEditedTutorName(event.target.value);
+  }
+
+  const handleEdit = (row) => {
+    console.log("in edit", row)
+    setEditSelectedRow(row);
+    setTutorName(row.TutorName);
+    setIsEditModalOpen(true);
+
+    axios.get("http://localhost:3200/api/tutors/getAllTutorInfo")
+      .then((response) => {
+        setTutors(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching tutors: ", error);
+      });
+  }
+
+  const confirmEdit = () => {
+    const id = editSelectedRow._id;
+
+    axios.put(`http://localhost:3200/api/tutorshedule/update/${id}`, { TutorName: editedTutorName })
+      .then((response) => {
+        setIsEditModalOpen(false);
+        toast.success("Record Updated!");
+        fetchData();
+      })
+      .catch((error) => {
+        toast.error('Error updating Sheduled Tute.');
+        console.error('Error updating data', error);
+      });
+  }
+
+  const cancelEdit = () => {
+    setIsEditModalOpen(false);
   }
 
   const handleDelete = (row) => {
@@ -90,7 +131,7 @@ const ViewShedules = () => {
   }
 
   const confirmDelete = () => {
-    const id = selectedRow._id; // Adjust this according to your data structure
+    const id = selectedRow._id; 
     axios.delete(`http://localhost:3200/api/tutorshedule/delete/${id}`)
       .then((response) => {
         setIsModalOpen(false);
@@ -118,8 +159,6 @@ const ViewShedules = () => {
         <Modal
           open={isModalOpen}
           onClose={cancelDelete}
-          // aria-labelledby="delete-modal-title"
-          // aria-describedby="delete-modal-description"
           className="center"
           style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginLeft: '50%', background: 'white', width: '300px', height: '150px' }}
         >
@@ -140,6 +179,48 @@ const ViewShedules = () => {
           </Box>
 
         </Modal>
+      </div>
+      <div id="editModal">
+
+        {editSelectedRow != null && (<Modal open={isEditModalOpen} onClose={cancelEdit}>
+          {/* {console.log("editSelectedRow.TutorName", editSelectedRow ? editSelectedRow.TutorName : '')} */}
+          <Box sx={style}>
+            <Typography variant="h6" component="h2">
+              Edit Record
+          </Typography>
+            <Typography>
+              Session Name: {editSelectedRow.sessionName}
+            </Typography>
+            <Typography>
+              Session Subject: {editSelectedRow.SessionSubject}
+            </Typography>
+            <Typography>
+              Tutor: {tutorName}
+            </Typography>
+            <Select
+              fullWidth
+              label="Tutor Name"
+              value={editedTutorName}
+              onChange={handleTutorNameChange}
+              placeholder="Change Tutor"
+            >
+              <MenuItem value="">
+                <em>None</em>
+              </MenuItem>
+              {tutors.map((tutor) => (
+                <MenuItem key={tutor._id} value={tutor.TutorFName}>
+                  {tutor.TutorFName} {tutor.TutorLName}
+                </MenuItem>
+              ))}
+            </Select>
+            <Button onClick={confirmEdit} variant="contained" color="primary">
+              Save
+          </Button>
+            <Button onClick={cancelEdit} variant="outlined" color="secondary">
+              Cancel
+          </Button>
+          </Box>
+        </Modal>)}
       </div>
     </div>
   );
