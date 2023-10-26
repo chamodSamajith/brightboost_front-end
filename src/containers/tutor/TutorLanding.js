@@ -6,6 +6,7 @@ import TabPanel from '@mui/lab/TabPanel';
 
 import AddTutor from './AddTutor';
 import TutorSheduling from './TutorSheduling';
+import ViewShedules from './ViewShedules'
 
 const TutorLanding = () => {
 
@@ -27,7 +28,7 @@ const TutorLanding = () => {
         </Box>
         <TabPanel value="1"><AddTutor /></TabPanel>
         <TabPanel value="2"><TutorSheduling /></TabPanel>
-        <TabPanel value="3"><TutorSheduling /></TabPanel>
+        <TabPanel value="3"><ViewShedules /></TabPanel>
       </TabContext>
     </Box>
   );
