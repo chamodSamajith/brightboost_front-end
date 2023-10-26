@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
-import Statistics from "./statistics";
+import Statistics from "./statistics/statistics";
 import Dashboard from './dashboard/Dashboard';
 const Admin = () => {
 
