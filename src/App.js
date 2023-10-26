@@ -10,9 +10,13 @@ import Layout from "./components/layout/index.js"
 import Admin from "./containers/admin/Admin.js"
 import Session from "./containers/session/Session.js"
 import Register from "./containers/register/Register.js"
+import JoinSession from './containers/session/JoinSession/JoinSession';
+import toast, { Toaster } from 'react-hot-toast';
+import QuestionsAnswers from './containers/question-answers/question-answers';
 
 function App({props}) {
   return (
+    <div>
     <Router>
       <Routes>
           {/* Routes which are accessible without login */}
@@ -26,11 +30,15 @@ function App({props}) {
        <Route path="/admin" element={<Admin/>}/>
        <Route path="/dashboard" element={<Dashboard/>}/>
        <Route path="/session" element={<Session/>}/>
+       <Route path="/join-session/" element={<JoinSession/>}/>
+       <Route path="/question-answers/" element={<QuestionsAnswers/>}/>
        </Route>
 
 
        </Routes>
     </Router>
+    <Toaster />
+    </div>
   );
 }
 

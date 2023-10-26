@@ -1,0 +1,85 @@
+.heading1{
+    font-size: 1.75rem;
+    font-weight: 400;
+    padding: 0 1.5rem;
+    line-height: 2.25rem;
+
+
+}
+
+.heading2{
+    line-height: 1.25rem;
+    font-size: 1.25rem;
+    color: rgb(32,33,36);
+    letter-spacing: .0178571429em;
+    font-weight: 500;
+    padding-bottom: 24px;
+}   
+
+.heading3{
+    line-height: 1.25rem;
+    font-size: .875rem;
+    color: rgb(32,33,36);
+    letter-spacing: .0178571429em;
+    font-weight: 500;
+}  
+
+
+.join-button{
+    background-color: rgb(26,115,232);
+    border-width: 0;
+    box-shadow: 0 1px 2px 0 rgba(60,64,67,.3), 0 1px 3px 1px rgba(60,64,67,.15);
+    color: white;
+    border-radius: 24px;
+    height: 48px;
+    outline: 1px solid transparent;
+    font-weight: 500;
+transition: border .28s cubic-bezier(.4,0,.2,1),box-shadow .28s cubic-bezier(.4,0,.2,1);
+width: 50%;
+font-size: .875rem;
+cursor: pointer;
+}
+.join-button:hover{
+    opacity: 0.5;
+}
+
+
+.session-window{
+    background-color: black;
+    height: 200px;
+    padding: 30px;
+    border-radius: 20px;
+}
+
+.session-conducted{
+    color: white;
+    line-height: 1.25rem;
+    font-size: 1.25rem;
+
+}
+
+.session-conducted{
+    color: white;
+    line-height: 1.25rem;
+    font-size: 1.25rem;
+
+}
+
+.session-conducted{
+    color: white;
+    line-height: 1.25rem;
+    font-size: 1.25rem;
+
+}
+
+.session-time{
+    color: white;
+    padding-bottom: 40px;
+    letter-spacing: .0178571429em;
+    font-weight: 500;
+}
+
+
+.session-notes{
+    color: white;
+}
