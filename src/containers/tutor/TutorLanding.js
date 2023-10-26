@@ -9,7 +9,7 @@ import TutorSheduling from './TutorSheduling';
 
 const TutorLanding = () => {
 
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState("1");
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -22,7 +22,7 @@ const TutorLanding = () => {
           <TabList onChange={handleChange} aria-label="lab API tabs example">
             <Tab label="Tutor details" value="1" />
             <Tab label="Tutor Sheduling" value="2" />
-            <Tab label="View Shedules" value="2" />
+            <Tab label="View Shedules" value="3" />
           </TabList>
         </Box>
         <TabPanel value="1"><AddTutor /></TabPanel>

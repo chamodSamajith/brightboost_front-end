@@ -4,7 +4,7 @@ import { Grid, TextField, Typography, InputLabel, Select, MenuItem, Button } fro
 const AddTutor = () => {
 
     const [tutorName, setTutorName] = useState("")
-    const [subject, setSubject] = useState("")
+    const [subject, setSubject] = useState([])
     const [dateTime, setDateTime] = useState("")
 
     const onHandleName = (e) => {
@@ -46,9 +46,9 @@ const AddTutor = () => {
                     <Grid style={{ marginTop: '1%' }} item sm={6} xs={12}>
                         <InputLabel>Subject Expertiese</InputLabel>
                         <Select
+                            multiple
                             id="demo-select-small"
                             value={subject}
-                            label="Subject"
                             sx={{ width: '100%' }}
                             onChange={onHandleSubject}
                         >
