@@ -81,3 +81,14 @@ export const getSessionDetailsData = async (data1) => {
       return error;
     }
 }
+
+export const getSessionUniqueCountData = async (data1) => {
+  try {
+    const data = await apiCall('/api/session/session-attendance/'+data1);
+    return data;
+    // Process the received data
+  } catch (error) {
+    // Handle error here
+    return error;
+  }
+}
