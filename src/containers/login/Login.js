@@ -1,8 +1,8 @@
-import * as React from 'react';
-import { useNavigate } from 'react-router-dom'; 
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
+
+ import { useNavigate } from 'react-router-dom'; 
+ import Avatar from '@mui/material/Avatar';
+ import Button from '@mui/material/Button';
+ import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
@@ -11,46 +11,169 @@ import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+ import Typography from '@mui/material/Typography';
+ import { createTheme, ThemeProvider } from '@mui/material/styles';
+ import React, { useState } from 'react';
+import axios from 'axios';
+import Swal from 'sweetalert2';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControl from '@mui/material/FormControl';
+import FormHelperText from '@mui/material/FormHelperText';
+import FormLabel from '@mui/material/FormLabel';
 
-import useAuth from "../../hooks/useAuth"
+import { Navigate } from 'react-router-dom';
 
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        BrightBoost Admin
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
+ import useAuth from "../../hooks/useAuth"
+
+ function Copyright(props) {
+   return (
+     <Typography variant="body2" color="text.secondary" align="center" {...props}>
+       {'Copyright © '}
+       <Link color="inherit" href="https://mui.com/">
+         BrightBoost Log
+       </Link>{' '}
+       {new Date().getFullYear()}
+       {'.'}
     </Typography>
   );
 }
+ const defaultTheme = createTheme();
 
-const defaultTheme = createTheme();
+ const Login = () => {
 
-const Login = () => {
-  const navigate = useNavigate();
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
+  const [studentEmail, setStudentEmail] = useState('');
+  const [studentPassword, setStudentPassword] = useState('');
+  const [loggedin, setLoggedin] = useState(false);
+  const [resData, setResData] = useState('');
 
-    if( data.get('email') !=="" && data.get('password')!==""){
-      window.sessionStorage.setItem("IsLoggedIn", true);
-      navigate('/');
-      console.log({
-        email: data.get('email'),
-        password: data.get('password'),
-      });
-      // useAuth();
-    }
+  const [user, setUser] = React.useState(''); 
 
+  const handleRadioChange = (event) => {
+    setUser(event.target.value);
   };
 
-  return (
+  const updateUsername = (event) => {
+    event.preventDefault();
+    const val = event.target.value;
+    setStudentEmail(val);
+  };
+
+  const updatePassword = (event) => {
+    event.preventDefault();
+    const val = event.target.value;
+    setStudentPassword(val);
+  };
+
+   const navigate = useNavigate();
+
+   const handleUser = (event) => {
+    event.preventDefault();
+
+    if (user === 'best') {
+    } else if (user === 'worst') {
+    } else {
+    }
+  };
+
+   const handleSubmit = (event) => {
+
+
+    event.preventDefault();
+    const loginBody = JSON.stringify({
+      StudentEmail: studentEmail,
+      StudentPassword: studentPassword,
+    });
+if(user =='Student'){
+
+  console.log("stydent")
+  axios({
+    headers: {
+      'Content-Type': 'application/json;charset=UTF-8',
+    },
+    method: 'POST',
+    url: 'http://localhost:3200/api/users/studentLogin',
+    data: loginBody,
+  })
+    .then((response) => {
+      console.log('Arrived to login request');
+      if (response.status === 200) {
+        setResData(response.data);
+        console.log('this is resData status ' + resData.messageCode);
+        if (resData.messageCode === '1000') {
+          setLoggedin(true);
+          window.sessionStorage.setItem("IsLoggedIn", true);
+           navigate('/Dashboard')
+          Swal.fire({
+            position: 'middle',
+            icon: 'success',
+            title: 'User Login Successful !',
+            showConfirmButton: false,
+            timer: 3500,
+          });
+        }
+        console.log('this is login status 2 ' + loggedin);
+      }
+    })
+    .then(console.log(
+      "success!"
+    ))
+    .catch(() => console.log('ISSUES !'));
+    
+    
+
+}
+else{
+  const loginBodyTut = JSON.stringify({
+    TutorEmail: studentEmail,
+    TutorPassword: studentPassword,
+  });
+  console.log("tutor type")
+  axios({
+    headers: {
+      'Content-Type': 'application/json;charset=UTF-8',
+    },
+    method: 'POST',
+    url: 'http://localhost:3200/api/tutors/tutorLogin',
+    data: loginBodyTut,
+  })
+    .then((response) => {
+      console.log('Arrived to login request');
+      if (response.status === 200) {
+        setResData(response.data);
+        console.log('this is resData status ' + resData.messageCode);
+        if (resData.messageCode === '1000') {
+          setLoggedin(true);
+          window.sessionStorage.setItem("IsLoggedIn", true);
+           navigate('/Dashboard')
+          Swal.fire({
+            position: 'middle',
+            icon: 'success',
+            title: 'User Login Successful !',
+            showConfirmButton: false,
+            timer: 3500,
+          });
+        }
+        console.log('this is login status 2 ' + loggedin);
+      }
+    })
+    .then(console.log(
+      "success!"
+    ))
+    .catch(() => console.log('ISSUES !'));
+}
+
+    
+
+
+
+
+    
+
+   };
+
+   return (
  <ThemeProvider theme={defaultTheme}>
       <Grid container component="main" sx={{ height: '100vh' }}>
         <CssBaseline />
@@ -75,17 +198,32 @@ const Login = () => {
               mx: 4,
               display: 'flex',
               flexDirection: 'column',
-              alignItems: 'center',
-            }}
-          >
-          <h4>BeightBoost Admin</h4>
-            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-              <LockOutlinedIcon />
-            </Avatar>
+               alignItems: 'center',
+             }}
+           >
+           <h4>BeightBoost Admin</h4>
+             <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+               <LockOutlinedIcon />
+             </Avatar>
             <Typography component="h1" variant="h5">
               Sign in
             </Typography>
-            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+            <div>
+            
+            <form onSubmit={handleUser}>
+      <FormControl sx={{ m: 3 }}  variant="standard">
+        <RadioGroup
+          aria-labelledby="demo-error-radios"
+          name="quiz"
+          value={user}
+          onChange={handleRadioChange}
+        >
+          <FormControlLabel value="Student" control={<Radio />} label="Student" />
+          <FormControlLabel value="Tutor" control={<Radio />} label="Tutor" />
+        </RadioGroup>
+      </FormControl>
+    </form>
+    </div>         <Box component="form"  onSubmit={handleSubmit} sx={{ mt: 1 }}>
               <TextField
                 margin="normal"
                 required
@@ -94,6 +232,7 @@ const Login = () => {
                 label="Email Address"
                 name="email"
                 autoComplete="email"
+                onChange={updateUsername}
                 autoFocus
               />
               <TextField
@@ -104,6 +243,7 @@ const Login = () => {
                 label="Password"
                 type="password"
                 id="password"
+                onChange={updatePassword}
                 autoComplete="current-password"
               />
               <FormControlLabel
@@ -138,5 +278,4 @@ const Login = () => {
     </ThemeProvider>
   )
 }
-
 export default Login
