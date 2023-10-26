@@ -16,6 +16,7 @@ const TutorSheduling = () => {
   const [tutorDetails, setTutorDetails] = useState([]);
   const [showTutors, setShowTutors] = useState(false);
   const [noTutorsAvailable,setNoTutorAvailable]=useState(true);
+  const [matcingTutor,setMatchingTutor]=useState('');
 
   const columns = [
     {
@@ -85,29 +86,89 @@ const TutorSheduling = () => {
     return formattedDate;
   };
 
-  const showAvailableTutors = () => {
-    setShowTutors(true);
-   
+  const convert12HourTo24Hour = (dateTime12h) => {
+    const dateTimeParts = dateTime12h.match(/(\d{4}-\d{2}-\d{2})T(\d+):(\d+)([APap][Mm])/);
+  
+    if (!dateTimeParts) {
+      return null; // Invalid input
+    }
+  
+    let [, datePart, hours, minutes, period] = dateTimeParts;
+    hours = parseInt(hours, 10);
+    minutes = parseInt(minutes, 10);
+  
+    if (period.toLowerCase() === 'pm' && hours < 12) {
+      hours += 12;
+    } else if (period.toLowerCase() === 'am' && hours === 12) {
+      hours = 0;
+    }
+  
+    const formattedTime = `${datePart}T${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+    return formattedTime;
+  };
 
-    const matchingTutors = tutorDetails.filter((tutor) => {
-        return (
-          data.sessionSubject &&
-          data.sessionSubject.some((subject) => tutor.TutorSubjects.includes(subject)) &&
-          new Date(data.endTime) <= new Date(tutor.AvailableDateTimeTo) &&
-          new Date(data.startTime) >= new Date(tutor.AvailableDateTimeFrom)
-        );
+  const showAvailableTutors = () => {
+
+
+  const standardizeDateFormat = (dateString) => {
+    const date = new Date(dateString);
+    const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}T${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
+    return formattedDate;
+  };
+
+  const formattedSelectedStartTime = convert12HourTo24Hour(selectedRowData.startTime);
+  const formattedSelectedEndTime = convert12HourTo24Hour(selectedRowData.endTime);
+
+  const matchingTutor = tutorDetails.find((tutor) => {
+
+    const matchingTutorIndex = tutorDetails.findIndex((tutor, index) => {
+        if (
+          tutor.TutorSubjects.includes(selectedRowData.sessionSubject) &&
+          standardizeDateFormat(tutor.AvailableDateTimeFrom) === formattedSelectedStartTime &&
+          standardizeDateFormat(tutor.AvailableDateTimeTo) === formattedSelectedEndTime
+        ) {
+          return true; // Return the index of the matching tutor
+        }
+        return false; // Continue searching
       });
-    
-      console.log('Matching Tutors', matchingTutors);
-    
-      if (matchingTutors.length === 0) {
-        setNoTutorAvailable(true)
+      
+      if (matchingTutorIndex !== -1) {
+        setShowTutors(true);
+        setNoTutorAvailable(true);
+        setMatchingTutor(tutorDetails[matchingTutorIndex])
+        console.log("matching",tutorDetails[matchingTutorIndex])
+      } else {
         toast.error('No tutors are available for this session.');
-      }else{
-        setNoTutorAvailable(false)
+        console.log("No matching tutor found");
+        setNoTutorAvailable(true);
       }
 
+  });
+
   };
+
+  const assignTutor = ()=>{
+      let sheduledTutorSession = {
+        SessionTimePeriodStart:formatDateTime(selectedRowData.startTime),
+        SessionTimePeriodEnd:formatDateTime(selectedRowData.endTime),
+          TutorName:matcingTutor.TutorName,
+          SessionSubject:selectedRowData.sessionSubject,
+          sessionName:selectedRowData.sessionName
+      }
+
+        // Create Tutor Assigned Shedule
+  axios
+  .post('http://localhost:3200/api/tutorshedule/create', sheduledTutorSession)
+  .then((response) => {
+    // If the request is successful
+    toast.success('Tutor Scheduled to the Session');
+  })
+  .catch((error) => {
+    // Handle errors 
+    toast.error('Error scheduling the tutor: ' + error.message);
+  });
+
+  }
 
   return (
     <div>
@@ -150,33 +211,27 @@ const TutorSheduling = () => {
           </Card>
         )}
       </div>
-{console.log('tutorDetails.length',tutorDetails.length,"tutorDetails",tutorDetails)}
-      {!noTutorsAvailable && showTutors && tutorDetails.length > 0 && (
-        <div>
+
+      { showTutors &&  (
+        <div style={{marginBottom:'3%'}}>
           <h3>Available Tutors for this Session:</h3>
-          {tutorDetails
-            .filter((tutor) => tutor.TutorSubjects.includes(selectedRowData.sessionSubject))
-            .map((tutor) => (
-              <Card key={tutor._id}>
-                <CardContent>
-                  <Typography variant="h5" component="div">
-                    {tutor.TutorName}
-                  </Typography>
-                  <Typography variant="body2">
-                    Available FROM: {formatDateTime(tutor.AvailableDateTimeFrom)} TO: {formatDateTime(tutor.AvailableDateTimeTo)}
-                  </Typography>
-                </CardContent>
-                <CardActions>
-                  <Button size="medium">Assign</Button>
-                </CardActions>
-              </Card>
-            ))}
+          {matcingTutor && (
+                <Card>
+                    <CardContent>
+                     <Typography variant="h5" component="div">
+                     {matcingTutor.TutorName}
+                     </Typography>
+                     <Typography variant="body2">
+                        Available FROM: {matcingTutor.AvailableDateTimeFrom.replace('T', ' ')} TO: {matcingTutor.AvailableDateTimeTo.replace('T', ' ')}
+                     </Typography>
+                 </CardContent>
+                 <CardActions>
+                      <Button onClick={assignTutor} size="medium">Assign</Button>
+                    </CardActions>
+                </Card>
+                )}
         </div>
       )}
-
-      {/* {showTutors && tutorDetails.length === 0 && (
-        toast.error('No tutors are available for this session.')
-      )} */}
     </div>
   );
 };
