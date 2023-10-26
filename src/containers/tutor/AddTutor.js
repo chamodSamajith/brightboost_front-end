@@ -126,6 +126,7 @@ const AddTutor = () => {
               <MenuItem value="Science">Science</MenuItem>
               <MenuItem value="History">History</MenuItem>
               <MenuItem value="English">English</MenuItem>
+              <MenuItem value="Mathematics">Mathematics</MenuItem>Mathematics
             </Select>
           </Grid>
 
