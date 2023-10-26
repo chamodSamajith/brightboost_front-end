@@ -146,7 +146,7 @@ const JoinSession = () => {
   item xs={7}>
     <Item style={{boxShadow:"none"}}>
         <div className="session-window">
-            <p className="session-conducted">Session Conducted By : {sessionData && sessionData.data.hostUserId && sessionData.data.hostUserId.TutorFName}  {sessionData && sessionData.data.hostUserId && sessionData.data.hostUserId.TutorLName}</p>
+            <p className="session-conducted">Session Conducted By : {sessionData && sessionData.data.hostUserId && sessionData.data.hostUserId.tutorName}</p>
             <p className="session-time">Session Time: {sessionData && sessionData.data && formatDate(sessionData.data.startTime)} - {sessionData && sessionData.data && formatDate(sessionData.data.endTime)}</p>
             <p className="session-notes">Special Notes: Have a piece of paper before joining session</p>
         </div>
