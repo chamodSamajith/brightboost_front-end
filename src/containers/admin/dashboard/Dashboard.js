@@ -20,7 +20,11 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import { mainListItems, secondaryListItems } from './listItems';
 import Chart from './Chart';
 import Deposits from './Deposits';
-import Orders from './Orders';
+import CustomizableTable from './CustomizableTable';
+import {useEffect, useState} from "react";
+import axios from "axios";
+import TableRow from "@mui/material/TableRow";
+import TableCell from "@mui/material/TableCell";
 
 function Copyright(props) {
   return (
@@ -81,14 +85,128 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 );
 
-// TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
+
+// CustomizableTable columns
+const columnData = [
+  "Question ID",
+  "Question",
+  "Answer",
+  "Comment",
+  "Subject ID",
+  "Tutor ID",
+  "Student ID",
+  "Session ID"
+];
 
 export default function Dashboard() {
   const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
   };
+
+  // Define the state variables for filtering
+  const [questions, setQuestions] = useState([]);
+  const [sessionFilter, setSessionFilter] = useState([]);
+  const [subjectFilter, setSubjectFilter] = useState([]);
+  const [tutorFilter, setTutorFilter] = useState([]);
+  const [studentFilter, setStudentFilter] = useState([]);
+
+  // Define the state variable for storing the filtered data
+  const [filteredQuestions, setFilteredQuestions] = useState([]);
+
+  // useEffect(() => {
+  //   // Make an API request to your server to fetch questions from MongoDB
+  //   axios.get('http://localhost:3200/api/questions')
+  //       .then((response) => {
+  //         setQuestions(response.data);
+  //       })
+  //       .catch((error) => {
+  //         console.error('Error fetching questions:', error);
+  //       });
+  //
+  //   // Make an API request to your server to fetch students from MongoDB
+  //   axios.get('http://localhost:3200/api/users')
+  //       .then((response) => {
+  //         setStudentFilter(response.data);
+  //       })
+  //       .catch((error) => {
+  //         console.error('Error fetching users:', error);
+  //       });
+  //
+  //   // Make an API request to your server to fetch tutors from MongoDB
+  //   axios.get('http://localhost:3200/api/tutors')
+  //       .then((response) => {
+  //         setTutorFilter(response.data);
+  //       })
+  //       .catch((error) => {
+  //         console.error('Error fetching tutors:', error);
+  //       });
+  //
+  //   // Make an API request to your server to fetch subjects from MongoDB
+  //   axios.get('http://localhost:3200/api/subjects')
+  //       .then((response) => {
+  //         setSubjectFilter(response.data);
+  //       })
+  //       .catch((error) => {
+  //         console.error('Error fetching subjects:', error);
+  //       });
+  //
+  //   // Make an API request to your server to fetch sessions from MongoDB
+  //   axios.get('http://localhost:3200/api/session/all')
+  //       .then((response) => {
+  //         setSessionFilter(response.data);
+  //       })
+  //       .catch((error) => {
+  //         console.error('Error fetching sessions:', error);
+  //     });
+  // }, []);
+
+    useEffect(() => {
+        // Define the API endpoints you want to fetch
+        const apiEndpoints = [
+            'http://localhost:3200/api/questions',
+            'http://localhost:3200/api/users',
+            'http://localhost:3200/api/tutors',
+            'http://localhost:3200/api/subjects',
+            'http://localhost:3200/api/session/all',
+        ];
+
+        // Use Promise.all to fetch data from multiple endpoints in parallel
+        Promise.all(
+            apiEndpoints.map((endpoint) =>
+                axios
+                    .get(endpoint)
+                    .then((response) => response.data)
+                    .catch((error) => {
+                        console.error(`Error fetching data from ${endpoint}:`, error);
+                        return [];
+                    })
+            )
+        )
+            .then(([questionsData, studentData, tutorData, subjectData, sessionData]) => {
+                setQuestions(questionsData);
+                setStudentFilter(studentData);
+                setTutorFilter(tutorData);
+                setSubjectFilter(subjectData);
+                setSessionFilter(sessionData);
+            });
+    }, []);
+
+
+    useEffect(() => {
+    // Filter questions based on selected filters
+    const filtered = questions.filter((question) => {
+      return (
+          (!sessionFilter || question.sessionId === sessionFilter) &&
+          (!subjectFilter || question.subjectId === subjectFilter) &&
+          (!tutorFilter || question.tutorId === tutorFilter) &&
+          (!studentFilter || question.studentId === studentFilter)
+      );
+    });
+
+    setFilteredQuestions(filtered);
+  }, [sessionFilter, subjectFilter, tutorFilter, studentFilter]);
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -189,10 +307,47 @@ export default function Dashboard() {
                   <Deposits />
                 </Paper>
               </Grid>
-              {/* Recent Orders */}
+              {/* Recent CustomizableTable */}
               <Grid item xs={12}>
+                <select
+                    onChange={(e) => setSessionFilter(e.target.value)}
+                    value={sessionFilter}
+                >
+                  <option value="">All Sessions</option>
+                  {/* Populate with session options */}
+                </select>
+
+                <select
+                    onChange={(e) => setSubjectFilter(e.target.value)}
+                    value={subjectFilter}
+                >
+                  <option value="">All Subjects</option>
+                  {/* Populate with subject options */}
+                  {subjectFilter.map((subject) => (
+                    <option value={subject.subjectName}> {subject.subjectName} </option>
+                  ))}
+                </select>
+
+                <select
+                    onChange={(e) => setTutorFilter(e.target.value)}
+                    value={tutorFilter}
+                >
+                  <option value="">All Tutors</option>
+                  {/* Populate with tutor options */}
+                    {tutorFilter.map((tutor) => (
+                        <option value={`${tutor.TutorFName} ${tutor.TutorLName}`}> {`${tutor.TutorFName} ${tutor.TutorLName}`} </option>
+                    ))}
+                </select>
+
+                <select
+                    onChange={(e) => setStudentFilter(e.target.value)}
+                    value={studentFilter}
+                >
+                  <option value="">All Students</option>
+                  {/* Populate with student options */}
+                </select>
                 <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                  <Orders />
+                  <CustomizableTable rows={questions} columns={columnData} />
                 </Paper>
               </Grid>
             </Grid>

@@ -16,6 +16,7 @@ const Admin = () => {
       >
         <Typography align="center" variant="h5">
             <Dashboard/>
+            {/*<QuestionTable/>*/}
         </Typography>
       </Box>
     )
