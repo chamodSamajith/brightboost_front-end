@@ -1,142 +1,151 @@
-import * as React from 'react';
-import { useNavigate } from 'react-router-dom'; 
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Paper from '@mui/material/Paper';
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import React, { useState } from 'react';
+import axios from 'axios';
+import Swal from 'sweetalert2';
+import { Navigate } from 'react-router-dom';
 
-import useAuth from "../../hooks/useAuth"
+export default function UserLogin() {
+  const [studentEmail, setStudentEmail] = useState('');
+  const [studentPassword, setStudentPassword] = useState('');
+  const [loggedin, setLoggedin] = useState(false);
+  const [resData, setResData] = useState('');
 
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        BrightBoost Admin
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
-
-const defaultTheme = createTheme();
-
-const Login = () => {
-  const navigate = useNavigate();
-
-  const handleSubmit = (event) => {
+  const updateUsername = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
+    const val = event.target.value;
+    setStudentEmail(val);
+  };
 
-    if( data.get('email') !=="" && data.get('password')!==""){
-      window.sessionStorage.setItem("IsLoggedIn", true);
-      navigate('/');
-      console.log({
-        email: data.get('email'),
-        password: data.get('password'),
-      });
-      // useAuth();
+  const updatePassword = (event) => {
+    event.preventDefault();
+    const val = event.target.value;
+    setStudentPassword(val);
+  };
+
+  const login = (event) => {
+    event.preventDefault();
+    const loginBody = JSON.stringify({
+      StudentEmail: studentEmail,
+      StudentPassword: studentPassword,
+    });
+
+    axios({
+      headers: {
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+      method: 'POST',
+      url: 'http://localhost:3200/api/users/studentLogin',
+      data: loginBody,
+    })
+      .then((response) => {
+        console.log('Arrived to login request');
+        if (response.status === 200) {
+          setResData(response.data);
+          console.log('this is resData status ' + resData.messageCode);
+          if (resData.messageCode === '1000') {
+            setLoggedin(true);
+            Swal.fire({
+              position: 'middle',
+              icon: 'success',
+              title: 'User Login Successful !',
+              showConfirmButton: false,
+              timer: 3500,
+            });
+          }
+          console.log('this is login status 2 ' + loggedin);
+        }
+      })
+      .then(navigateToHome)
+      .catch(() => console.log('ISSUES !'));
+  };
+
+  const navigateToHome = () => {
+    if (loggedin) {
+      console.log('came for navigation');
+      // You can use navigation logic here.
     }
-
   };
 
   return (
- <ThemeProvider theme={defaultTheme}>
-      <Grid container component="main" sx={{ height: '100vh' }}>
-        <CssBaseline />
-        <Grid
-          item
-          xs={false}
-          sm={4}
-          md={7}
-          sx={{
-            backgroundImage: 'url(https://source.unsplash.com/random?wallpapers)',
-            backgroundRepeat: 'no-repeat',
-            backgroundColor: (t) =>
-              t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-          }}
-        />
-        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-          <Box
-            sx={{
-              my: 8,
-              mx: 4,
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-            }}
-          >
-          <h4>BeightBoost Admin</h4>
-            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-              <LockOutlinedIcon />
-            </Avatar>
-            <Typography component="h1" variant="h5">
-              Sign in
-            </Typography>
-            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-                autoFocus
-              />
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-              />
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              />
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-              >
-                Sign In
-              </Button>
-              <Grid container>
-                <Grid item xs>
-                  <Link href="#" variant="body2">
-                    Forgot password?
-                  </Link>
-                </Grid>
-                <Grid item>
-                  <Link href="#" variant="body2">
-                    {"Don't have an account? Sign Up"}
-                  </Link>
-                </Grid>
-              </Grid>
-              <Copyright sx={{ mt: 5 }} />
-            </Box>
-          </Box>
-        </Grid>
-      </Grid>
-    </ThemeProvider>
-  )
-}
+    <div
+      style={{
+        backgroundImage:
+          'url("https://cutewallpaper.org/24x/nm6zpu95e/400414300.jpg")',
+        backgroundSize: 'cover',
+        position: 'relative',
+        height: '750px',
+      }}
+    >
+      <div
+        className="card"
+        style={{
+          opacity: 0.8,
+          borderRadius: 30,
+          position: 'absolute',
+          marginTop: 50,
+          height: 400,
+          width: 400,
+          justifyContent: 'center',
+          marginLeft: 500,
+          marginRight: 500,
+        }}
+      >
+        <div className="card-body">
+          <form>
+            <br />
+            <div style={{ justifyContent: 'center', alignItems: 'center' }}>
+              {' '}
+              <h3> User Login</h3>{' '}
+            </div>
 
-export default Login
+            <div className="form-group">
+              <label>Email address</label>
+              <input
+                type="email"
+                className="form-control"
+                placeholder="Enter email"
+                onChange={updateUsername}
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Password</label>
+              <input
+                type="password"
+                className="form-control"
+                placeholder="Enter password"
+                onChange={updatePassword}
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <div className="custom-control custom-checkbox">
+                <input
+                  type="checkbox"
+                  className="custom-control-input"
+                  id="customCheck1"
+                />
+                <label className="custom-control-label" htmlFor="customCheck1">
+                  Remember me
+                </label>
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              className="btn btn-primary btn-block"
+              onClick={login}
+            >
+              Login
+            </button>
+            <p className="forgot-password text-right">
+              Forgot <a href="#">password?</a>
+            </p>
+          </form>
+          {loggedin && <Navigate to="/dashboard" />}
+        </div>
+      </div>
+    </div>
+  );
+}

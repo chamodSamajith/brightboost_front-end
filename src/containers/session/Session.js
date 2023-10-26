@@ -46,14 +46,16 @@ const Session = () => {
       </Button>
       </div>
 <h2>Session get</h2>
-      <div>
+      
         {sessionData && sessionData.data && sessionData.data.map((values)=>(
+          <div style={{display:'flex'}}>
            <Button onClick={()=>navigateSession(values._id)}>{values.sessionName}</Button>
+           </div>
         ))
        
         }
        
-      </div>
+    
 
       <CreateSession open={isModalOpen} onClose={handleCloseModal} getSessions={sessionRetrieve}/>
     </Box>
