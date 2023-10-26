@@ -14,6 +14,7 @@ import JoinSession from './containers/session/JoinSession/JoinSession';
 import toast, { Toaster } from 'react-hot-toast';
 import QuestionsAnswers from './containers/question-answers/question-answers';
 import TutorLanding from './containers/tutor/TutorLanding'
+import LandingPage from './containers/landingPage/LandingPage'
 
 function App({props}) {
   return (
@@ -22,12 +23,12 @@ function App({props}) {
       <Routes>
           {/* Routes which are accessible without login */}
       <Route element={<PublicRoutes />}>
+      <Route path="/" element={<LandingPage />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register/>}/>
       </Route>
 
        <Route element={<Layout {...props} />}>
-       <Route path="/" element={<Login />} />
        <Route path="/admin" element={<Admin/>}/>
        <Route path="/dashboard" element={<Dashboard/>}/>
        <Route path="/session" element={<Session/>}/>
