@@ -1,6 +1,7 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
-
+import Statistics from "./statistics/statistics";
+import Dashboard from './dashboard/Dashboard';
 const Admin = () => {
 
     return (
@@ -14,7 +15,7 @@ const Admin = () => {
         }}
       >
         <Typography align="center" variant="h5">
-         BrightBoost admin landing page
+            <Dashboard/>
         </Typography>
       </Box>
     )
