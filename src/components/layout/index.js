@@ -76,6 +76,12 @@ const menuItemsAdmin = [
     icon: <People />,
     path: "/admin",
   },
+  {
+    code: "SESSION",
+    label: "Tutor Schedule",
+    icon: <People />,
+    path: "/tutor",
+  },
 ];
 
 const Layout = () => {
