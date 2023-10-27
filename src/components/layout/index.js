@@ -36,12 +36,28 @@ const menuItems = [
     code: "QL",
     label: "Quetion Logging",
     icon: <Paid />,
-    path: "/page4",
+    path: "/TutorQuestions",
+  },
+];
+
+const menuItems2 = [
+  {
+    code: "SESSION",
+    label: "Session",
+    icon: <People />,
+    path: "/session",
+  },
+  {
+    code: "QL",
+    label: "Quetion Logging",
+    icon: <Paid />,
+    path: "/StudentQuestions",
   },
 ];
 
 const Layout = () => {
 
+  const isStudent = (window.sessionStorage.getItem("user"));
   const navigate = useNavigate();
 
   const [isDrawerOpen, setIsDrawerOpen] = useState(true);
@@ -71,7 +87,8 @@ const Layout = () => {
       <SideDrawer
         toggleDrawer={toggleDrawer}
         isOpen={isDrawerOpen}
-        menuItems={menuItems}
+        menuItems={isStudent? menuItems2 : menuItems}
+        visible ={isStudent? menuItems2 : menuItems}
       />
 
       {/* Main container */}
