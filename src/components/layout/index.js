@@ -28,27 +28,59 @@ const menuItems = [
   },
   {
     code: "TUTOR",
-    label: "TUTOR",
+    label: "Tutor",
     icon: <Public />,
-    path: "/page3",
+    path: "/tutor",
   },
   {
     code: "QL",
     label: "Quetion Logging",
     icon: <Paid />,
-    path: "/page4",
+    path: "/TutorQuestions",
+  },
+];
+
+const menuItems2 = [
+  {
+    code: "SESSION",
+    label: "Session",
+    icon: <People />,
+    path: "/session",
+  },
+  {
+    code: "QL",
+    label: "Quetion Logging",
+    icon: <Paid />,
+    path: "/StudentQuestions",
+  },
+];
+
+const menuItems3 = [
+  {
+    code: "SESSION",
+    label: "Session",
+    icon: <People />,
+    path: "/session",
+  },
+  {
+    code: "QL",
+    label: "Quetion Answering",
+    icon: <Paid />,
+    path: "/TutorQuestions",
   },
 ];
 
 const Layout = () => {
 
+  const isStudent = (window.sessionStorage.getItem("user"));
   const navigate = useNavigate();
 
   const [isDrawerOpen, setIsDrawerOpen] = useState(true);
 
 
   const toggleDrawer = () => {
-    setIsDrawerOpen(!isDrawerOpen)
+    // setIsDrawerOpen(!isDrawerOpen)
+    setIsDrawerOpen(false)
   }
 
   const onHandleLogout=()=>{
@@ -70,7 +102,8 @@ const Layout = () => {
       <SideDrawer
         toggleDrawer={toggleDrawer}
         isOpen={isDrawerOpen}
-        menuItems={menuItems}
+        menuItems={isStudent? menuItems2: menuItems}
+        visible ={isStudent? menuItems2 : menuItems}
       />
 
       {/* Main container */}

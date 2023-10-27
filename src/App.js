@@ -6,6 +6,11 @@ import './App.css';
 import Login from "./containers/login/Login.js"
 import PublicRoutes from "./routes/PublicRoutes.js"
 import Dashboard from "./containers/dashboard/Dashboard.js"
+import StudentSignUp from "./containers/StudentSignUp/StudentSignUp.js"
+import StudentProfile from "./containers/StudentProfile/StudentProfile.js"
+import TutorProfile from "./containers/TutorProfile/TutorProfile.js"
+import StudentQuestions from "./containers/StudentQuestions/StudentQuestions.js"
+import TutorSignUp from "./containers/TutorSignUp/TutorSignUp.js"
 import Layout from "./components/layout/index.js"
 import Admin from "./containers/admin/Admin.js"
 import Session from "./containers/session/Session.js"
@@ -13,8 +18,11 @@ import Register from "./containers/register/Register.js"
 import JoinSession from './containers/session/JoinSession/JoinSession';
 import toast, { Toaster } from 'react-hot-toast';
 import QuestionsAnswers from './containers/question-answers/question-answers';
+import TutorLanding from './containers/tutor/TutorLanding'
 
 function App({props}) {
+  
+
   return (
     <div>
     <Router>
@@ -32,7 +40,17 @@ function App({props}) {
        <Route path="/session" element={<Session/>}/>
        <Route path="/join-session/" element={<JoinSession/>}/>
        <Route path="/question-answers/" element={<QuestionsAnswers/>}/>
-       </Route>
+
+       <Route path="/StudentSignUp/" element={<StudentSignUp/>}/>
+       <Route path="/TutorSignUp/" element={<TutorSignUp/>}/>
+       <Route path="/StudentProfile/" element={<StudentProfile/>}/>
+       <Route path="/StudentQuestions/" element={<StudentQuestions/>}/>
+       <Route path="/TutorProfile/" element={<TutorProfile/>}/>
+     
+
+
+       <Route path="/tutor" element={<TutorLanding/>}/>
+       </Route> 
 
 
        </Routes>
