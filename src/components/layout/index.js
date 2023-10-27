@@ -12,8 +12,7 @@ import {
 import HeaderBar from "./HeaderBar";
 import SideDrawer from "./SideDrawer";
 
-
-const menuItems = [
+const menuItemsAll = [
   {
     code: "SESSION",
     label: "Session",
@@ -40,7 +39,7 @@ const menuItems = [
   },
 ];
 
-const menuItems2 = [
+const menuItemsStudent = [
   {
     code: "SESSION",
     label: "Session",
@@ -49,7 +48,7 @@ const menuItems2 = [
   },
   {
     code: "QL",
-    label: "Quetion Logging",
+    label: "Question Logging",
     icon: <Paid />,
     path: "/StudentQuestions",
   },
@@ -70,13 +69,19 @@ const menuItems3 = [
   },
 ];
 
+const menuItemsAdmin = [
+  {
+    code: "SESSION",
+    label: "Dashboard",
+    icon: <People />,
+    path: "/admin",
+  },
+];
+
 const Layout = () => {
-
-  const isStudent = (window.sessionStorage.getItem("user"));
+  const isStudent = (window.sessionStorage.getItem("userType"));
   const navigate = useNavigate();
-
   const [isDrawerOpen, setIsDrawerOpen] = useState(true);
-
 
   const toggleDrawer = () => {
     // setIsDrawerOpen(!isDrawerOpen)
@@ -86,6 +91,23 @@ const Layout = () => {
   const onHandleLogout=()=>{
     window.sessionStorage.removeItem("IsLoggedIn");
     navigate('/login');
+  }
+
+  let selectedMenuItems;
+
+  switch (isStudent) {
+    case 'student':
+      selectedMenuItems = menuItemsStudent;
+      break;
+    case 'tutor':
+      selectedMenuItems = menuItemsStudent;
+      break;
+    case 'admin':
+      selectedMenuItems = menuItemsAdmin;
+      break;
+    default:
+      // Define a default value if needed
+      selectedMenuItems = menuItemsAll;
   }
 
   return (
@@ -102,8 +124,8 @@ const Layout = () => {
       <SideDrawer
         toggleDrawer={toggleDrawer}
         isOpen={isDrawerOpen}
-        menuItems={isStudent? menuItems2: menuItems}
-        visible ={isStudent? menuItems2 : menuItems}
+        menuItems={selectedMenuItems}
+        visible ={selectedMenuItems}
       />
 
       {/* Main container */}

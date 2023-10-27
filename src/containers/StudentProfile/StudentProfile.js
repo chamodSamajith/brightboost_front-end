@@ -117,7 +117,7 @@ function Album() {
         <Toolbar>
           <CameraIcon sx={{ mr: 2 }} />
           <Typography variant="h6" color="inherit" noWrap>
-            Tutor Profile
+            Student Profile
           </Typography>
         </Toolbar>
       </AppBar>
