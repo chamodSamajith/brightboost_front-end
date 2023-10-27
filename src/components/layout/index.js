@@ -89,6 +89,7 @@ const Layout = () => {
   }
 
   const onHandleLogout=()=>{
+    window.sessionStorage.removeItem("userType");
     window.sessionStorage.removeItem("IsLoggedIn");
     navigate('/login');
   }
@@ -107,7 +108,7 @@ const Layout = () => {
       break;
     default:
       // Define a default value if needed
-      selectedMenuItems = menuItemsAll;
+      selectedMenuItems = [];
   }
 
   return (

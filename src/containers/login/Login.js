@@ -206,7 +206,7 @@ const Login = () => {
                             alignItems: 'center',
                         }}
                     >
-                        <h4>BeightBoost Admin</h4>
+                        <h4>BrightBoost</h4>
                         <Avatar sx={{m: 1, bgcolor: 'secondary.main'}}>
                             <LockOutlinedIcon/>
                         </Avatar>
@@ -272,7 +272,7 @@ const Login = () => {
                                     </Link>
                                 </Grid>
                                 <Grid item>
-                                    <Link href="#" variant="body2">
+                                    <Link href="/StudentsignUp" variant="body2">
                                         {"Don't have an account? Sign Up"}
                                     </Link>
                                 </Grid>
