@@ -1,0 +1,21 @@
+.list{
+    height: 50px;
+    width: 100%;
+    background-color: rgb(215, 215, 215);
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.txt-style{
+    font-weight: 500;
+    font-size: 18px;
+    padding-left: 20px;
+    letter-spacing: 0.1rem;
+}
+
+.img-style{
+    height: 400px;
+    padding: 20px;
+    padding-top: 0px;
+    width: 100%;
+}

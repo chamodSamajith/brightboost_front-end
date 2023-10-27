@@ -71,13 +71,13 @@ const Login = () => {
     const navigate = useNavigate();
 
     const handleUser = (event) => {
-        event.preventDefault();
+      event.preventDefault();
 
-        if (user === 'best') {
-        } else if (user === 'worst') {
-        } else {
-        }
-    };
+      if (user === 'best') {
+      } else if (user === 'worst') {
+      } else {
+      }
+  };
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -105,6 +105,9 @@ const Login = () => {
                             window.sessionStorage.setItem("IsLoggedIn", true);
                             window.sessionStorage.setItem("userType", "student");
                             // window.sessionStorage.setItem("user", true);
+                            window.sessionStorage.setItem("user_id", response.data.data._id);
+                            window.sessionStorage.setItem("type", 'student');
+                            window.sessionStorage.setItem("email", response.data.data.StudentEmail);
                             navigate('/StudentProfile', {state: {userData: resData}});
                             //  navigate('/Dashboard')
                             Swal.fire({
@@ -147,6 +150,8 @@ const Login = () => {
                             setLoggedin(true);
                             window.sessionStorage.setItem("IsLoggedIn", true);
                             window.sessionStorage.setItem("userType", "tutor");
+                            window.sessionStorage.setItem("user_id", response.data.data._id);
+                            window.sessionStorage.setItem("type", 'tutor');
                             navigate('/TutorProfile', {state: {userData: resData}});
                             Swal.fire({
                                 position: 'middle',

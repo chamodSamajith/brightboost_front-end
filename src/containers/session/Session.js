@@ -3,6 +3,7 @@ import { Box, Typography, Button } from "@mui/material";
 import CreateSession from '../session/createSession/createSession.js';
 import { getAllSessionData } from "../../services/sessionService.js";
 import { useNavigate } from "react-router";
+import "./session.css";
 const Session = () => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -40,23 +41,32 @@ const Session = () => {
 
       }}
     >
-      <div style={{display:"flex",justifyContent:"end"}}>
+{sessionStorage.getItem("type")!="student" && <div style={{display:"flex",justifyContent:"end",paddingBottom:"20px"}}>
        <Button variant="contained" onClick={handleOpenModal}>
         Create Session
       </Button>
-      </div>
-<h2>Session get</h2>
-      
+      </div>}
+
+<div style={{display:"flex"}}>
+      <div style={{width:"50%"}}>
+      <h2 style={{textAlign:"center"}}>Available Sessions</h2>
         {sessionData && sessionData.data && sessionData.data.map((values)=>(
-          <div style={{display:'flex'}}>
-           <Button onClick={()=>navigateSession(values._id)}>{values.sessionName}</Button>
+          <div style={{display:'flex',cursor:"pointer"}}>
+            <div  onClick={()=>navigateSession(values._id)} className="list">
+            <p className="txt-style"> {values.sessionName}</p>
+           </div>
            </div>
         ))
        
         }
        
-    
+       </div>
 
+       <div style={{width:"50%"}}>
+
+        <img className="img-style" src="https://olc-wordpress-assets.s3.amazonaws.com/uploads/2020/03/Online-teaching-class-header.png" />
+       </div>
+       </div>
       <CreateSession open={isModalOpen} onClose={handleCloseModal} getSessions={sessionRetrieve}/>
     </Box>
   );

@@ -43,8 +43,12 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 import { useNavigate } from 'react-router-dom';
 import { Schedule } from '@mui/icons-material';
+import LeaveSession from '../session/leaveSession/leaveSession';
 
 function Album() {
+  const [sessionid, setSessionId] = useState(new URLSearchParams(window.location.search).get(
+    "id"
+  ));
   const [userDataNew, setUserData] = useState({
   });
   
@@ -134,6 +138,8 @@ function Album() {
       </AppBar>
       <main>
         {/* Hero unit */}
+
+        <LeaveSession sessionID={sessionid}/>
     
         <Container sx={{ py: 8 }} maxWidth="md">
         {loading ? (

@@ -49,8 +49,9 @@ const leaveActiveSession=async ()=>{
 }
   return (
     <div>
+      <div style={{display:"flex",justifyContent:"end"}}>
   <Button onClick={()=>handleClickOpen()}>Leave Session</Button>
-
+  </div>
 
 
   <Dialog

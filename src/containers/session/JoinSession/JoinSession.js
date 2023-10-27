@@ -95,7 +95,7 @@ const JoinSession = () => {
         }else{
             data={
                 sessionID:sessionid,
-                userId:userData,
+                hostId:userData,
                 joinTime:new Date(),
                 status:1,
                 participantRole:"host"
@@ -105,7 +105,12 @@ const JoinSession = () => {
         const api_response = await enrollSessionData(data)
         if(api_response.status==200){
             toast.success("Successfully joined session")
-            navigate('/question-answers?id='+sessionid)   
+            if(sessionStorage.getItem("type")=="student"){
+              navigate('/question-answers?id='+sessionid, { state: { sessionData: sessionData, studentemail: sessionStorage.getItem("email")} })   
+            }else{
+              navigate('/StudentQuestions?id='+sessionid)  
+            }
+           
         }else{
             toast.error("Error joining session")
         }
@@ -146,8 +151,7 @@ const JoinSession = () => {
   item xs={7}>
     <Item style={{boxShadow:"none"}}>
         <div className="session-window">
-            <p className="session-conducted">Session Conducted By : {sessionData && sessionData.data.hostUserId && sessionData.data.hostUserId.tutorName}</p>
-            <p className="session-time">Session Time: {sessionData && sessionData.data && formatDate(sessionData.data.startTime)} - {sessionData && sessionData.data && formatDate(sessionData.data.endTime)}</p>
+        <p className="session-conducted">Session Conducted By : {sessionData && sessionData.data.hostUserId && sessionData.data.hostUserId.TutorFName}  {sessionData && sessionData.data.hostUserId && sessionData.data.hostUserId.TutorLName}</p>            <p className="session-time">Session Time: {sessionData && sessionData.data && formatDate(sessionData.data.startTime)} - {sessionData && sessionData.data && formatDate(sessionData.data.endTime)}</p>
             <p className="session-notes">Special Notes: Have a piece of paper before joining session</p>
         </div>
 
@@ -156,7 +160,7 @@ const JoinSession = () => {
   <Grid item xs={5}>
     <Item style={{boxShadow:"none"}}>
       <div>
-        <Button onClick={openSessionLog}>View Activity Log</Button>
+  {sessionStorage.getItem("type")!="student" &&  <Button onClick={openSessionLog}>View Activity Log</Button>}
         <p className="heading1">Ready to Join Session?</p>
         <p className="heading2">{sessionData && sessionData.data.sessionName}</p>
         {sessionParticipantData && sessionParticipantData.isHostJoined &&<p>Host has joined meeting</p>}
