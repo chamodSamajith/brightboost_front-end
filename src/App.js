@@ -8,6 +8,7 @@ import PublicRoutes from "./routes/PublicRoutes.js"
 import Dashboard from "./containers/dashboard/Dashboard.js"
 import StudentSignUp from "./containers/StudentSignUp/StudentSignUp.js"
 import StudentProfile from "./containers/StudentProfile/StudentProfile.js"
+import TutorProfile from "./containers/TutorProfile/TutorProfile.js"
 import StudentQuestions from "./containers/StudentQuestions/StudentQuestions.js"
 import TutorSignUp from "./containers/TutorSignUp/TutorSignUp.js"
 import Layout from "./components/layout/index.js"
@@ -44,6 +45,7 @@ function App({props}) {
        <Route path="/TutorSignUp/" element={<TutorSignUp/>}/>
        <Route path="/StudentProfile/" element={<StudentProfile/>}/>
        <Route path="/StudentQuestions/" element={<StudentQuestions/>}/>
+       <Route path="/TutorProfile/" element={<TutorProfile/>}/>
      
 
 

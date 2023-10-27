@@ -30,17 +30,60 @@ import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
 import AttachEmailIcon from '@mui/icons-material/AttachEmail';
 import CakeIcon from '@mui/icons-material/Cake';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 import { useNavigate } from 'react-router-dom';
 
+import { styled } from '@mui/material/styles';
+import CardHeader from '@mui/material/CardHeader';
+import Collapse from '@mui/material/Collapse';
+import IconButton from '@mui/material/IconButton';
+import { green, lightGreen, red } from '@mui/material/colors';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import ShareIcon from '@mui/icons-material/Share';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import SendIcon from '@mui/icons-material/Send';
+
+
+import TextField from '@mui/material/TextField';
+
+import { Schedule } from '@mui/icons-material';
+
 function Album() {
+  const [answer, setAnswer] = React.useState('');
+
+  const updateAnswer = (event) => {
+    event.preventDefault();
+    const val = event.target.value;
+    setAnswer(val);
+  };
+
+
+  const [expanded, setExpanded] = React.useState(false);
+
+  const handleExpandClick = () => {
+    setExpanded(!expanded);
+  };
+
+  const ExpandMore = styled((props) => {
+    const { expand, ...other } = props;
+    return <IconButton {...other} />;
+  })(({ theme, expand }) => ({
+    transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
+    marginLeft: 'auto',
+    transition: theme.transitions.create('transform', {
+      duration: theme.transitions.duration.shortest,
+    }),
+  }));
+  
   const [userDataNew, setUserData] = useState({
-    StudentFName: 'chamika',
-        StudentLName: '',
-        StudentAge: '',
-        StudentAddress: '',
-        StudentEmail: '',
-        StudentPhone: '',
+    TutorFName: 'chamika',
+    TutorLName: '',
+    TutorAge: '',
+    TutorAddress: '',
+    TutorEmail: '',
+        TutorPhone: '',
   });
   const [tutorSchedules, setTutorSchedules] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -57,12 +100,12 @@ function Album() {
     // Update userDataNew with userData
     setUserData({
       ...userDataNew,
-      StudentFName: userData.data.StudentFName,
-      StudentLName: userData.data.StudentLName,
-      StudentAge: userData.data.StudentAge,
-      StudentAddress: userData.data.StudentAddress,
-      StudentEmail: userData.data.StudentEmail,
-      StudentPhone: userData.data.StudentPhone,
+      TutorFName: userData.data.TutorFName,
+      TutorLName: userData.data.TutorLName,
+      TutorAge: userData.data.TutorAge,
+      TutorAddress: userData.data.TutorAddress,
+      TutorEmail: userData.data.TutorEmail,
+      TutorPhone: userData.data.TutorPhone,
     });
   }
 
@@ -70,14 +113,14 @@ function Album() {
 
 
   // Define the API endpoint
-  const apiUrl = 'http://localhost:3200/api/session/all';
+  const apiUrl = 'http://localhost:3200/api/questions/';
 
   // Make an HTTP GET request to the API
   axios.get(apiUrl)
     .then((response) => {
       // If the request is successful, set the data in the state
-      setTutorSchedules(response.data.data);
-      console.log("this is data: ",response.data.data )
+      setTutorSchedules(response.data);
+      console.log("this is data: ",response.data )
       setLoading(false); 
     })
     .catch((error) => {
@@ -96,16 +139,40 @@ function Album() {
     // Reload the current page
     window.location.reload();
   };
-  const navigateToSession = (id)=>{
-    window.location.replace('http://localhost:3000/join-session/?id='+id);
-    //window.location.replace('http://localhost:3000/login');
-  };
+  
 
-  const navigateToAskQuestion =(schedule)=>{
+  const navigateToAnswerQuestion =(schedule)=>{
     console.log(schedule);
     const userData = location.state && location.state.userData;
-    navigate('/question-answers', { state: { sessionData: schedule, studentemail: userDataNew.StudentEmail} });
-    localStorage.setItem('email', userDataNew.StudentEmail);
+
+    const apiUrl = 'http://localhost:3200/api/questions/'+schedule._id;
+    const data = {
+      answer: answer,
+    };
+
+    axios
+    .put(apiUrl, data)
+    .then((response) => {
+      // Handle the response here
+      console.log('Answer updated successfully:', response.data);
+      Swal.fire({
+        position: 'middle',
+        icon: 'success',
+        title: 'Answer Sent!',
+        showConfirmButton: false,
+        timer: 3500,
+      },5000);
+      
+      window.location.reload();
+    })
+    .catch((error) => {
+      // Handle errors here
+      console.error('Error updating answer:', error);
+    });
+
+
+
+
   }
   
 
@@ -138,7 +205,7 @@ function Album() {
               color="text.primary"
               gutterBottom
             >
-              {userDataNew.StudentFName} {userDataNew.StudentLName}
+              {userDataNew.TutorFName} {userDataNew.TutorLName}
             </Typography>
             <List
       sx={{
@@ -153,7 +220,7 @@ function Album() {
             <HomeIcon />
           </Avatar>
         </ListItemAvatar>
-        <ListItemText primary="Home Address" secondary={userDataNew.StudentAddress} />
+        <ListItemText primary="Home Address" secondary={userDataNew.TutorAddress} />
       </ListItem>
       <Divider variant="inset" component="li" />
       <ListItem>
@@ -162,7 +229,7 @@ function Album() {
             <LocalPhoneIcon />
           </Avatar>
         </ListItemAvatar>
-        <ListItemText primary="Phone Number" secondary={userDataNew.StudentPhone} />
+        <ListItemText primary="Phone Number" secondary={userDataNew.TutorPhone} />
       </ListItem>
       <Divider variant="inset" component="li" />
       <ListItem>
@@ -171,7 +238,7 @@ function Album() {
             <CakeIcon />
           </Avatar>
         </ListItemAvatar>
-        <ListItemText primary="Age" secondary={userDataNew.StudentAge} />
+        <ListItemText primary="Age" secondary={userDataNew.TutorAge} />
       </ListItem>
       <Divider variant="inset" component="li" />
       <ListItem>
@@ -180,7 +247,7 @@ function Album() {
             <AttachEmailIcon />
           </Avatar>
         </ListItemAvatar>
-        <ListItemText primary="Email" secondary={userDataNew.StudentEmail} />
+        <ListItemText primary="Email" secondary={userDataNew.TutorEmail} />
       </ListItem>
     </List>
             <Stack
@@ -190,47 +257,82 @@ function Album() {
               justifyContent="center"
             >
               
-              <Button onClick={handleRefreshClick} variant="outlined">Press for the latest Sessions</Button>
+              <Button onClick={handleRefreshClick} variant="outlined">Press for the latest Questions by students</Button>
             </Stack>
           </Container>
         </Box>
         <Container sx={{ py: 8 }} maxWidth="md">
         {loading ? (
         <p>Loading...</p>
-      ) : tutorSchedules.length > 0 ? (
+      ) : cards.length > 0 ? (
           <Grid container spacing={4}>
-            {tutorSchedules.map((schedule) => (
+            {cards.map((schedule) => (
               <Grid item key={schedule._id} xs={12} sm={6} md={4}>
-                <Card
-                  sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
-                >
-                  <CardMedia
-                    component="div"
-                    sx={{
-                      // 16:9
-                      pt: '56.25%',
-                    }}
-                    image="https://media.istockphoto.com/id/1361844238/photo/high-school-professor-assisting-her-students-in-e-learning-on-laptop-in-the-classroom.jpg?s=612x612&w=0&k=20&c=RUI6d64h2mszvH2CicmeSCp_sZowN1p81dtuctGIaRM="
-                  />
-                  <CardContent sx={{ flexGrow: 1 }}>
-                    <Typography gutterBottom variant="h5" component="h2">
-                      {schedule.sessionSubject} - {schedule.sessionName}
-                    </Typography>
-                    <Typography>
-                      Conducted by:  {schedule.TutorName? schedule.TutorName :"Darren Ross"} </Typography>
-                      <Typography>  Start Time:  {schedule.startTime} </Typography>
-                      <Typography>   End Time: {schedule.endTime} </Typography>
-                    
-                  </CardContent>
-                  <CardActions>
-                    <Button size="small" onClick={()=>navigateToSession(schedule._id)} >Attend</Button>
-                    <Button size="small"onClick={()=>navigateToAskQuestion(schedule)}>My Questions</Button>
-                  </CardActions>
-                </Card>
+                <Card sx={{ maxWidth: 345 }}>
+      <CardHeader
+        avatar={
+          <Avatar sx={{ bgcolor: schedule.status == "Awaing Answer" || schedule.answer == "" ?red[500]: lightGreen[500] }} aria-label="recipe">
+            Q
+          </Avatar>
+        }
+        action={
+          <IconButton aria-label="settings">
+            <MoreVertIcon />
+          </IconButton>
+        }
+        title={schedule.answer == "" ?schedule.status == "Awaing Answer":schedule.status}
+      />
+      <CardMedia
+        component="img"
+        height="194"
+        image="https://executive.mit.edu/dw/image/v2/BFHZ_PRD/on/demandware.static/-/Sites-master-catalog-msee/default/dwa0897f02/images/QUE.jpg?sw=400&sh=300"
+        alt="Paella dish"
+      />
+      <CardContent>
+        <Typography variant="body2" color="text.secondary">
+        {schedule.question}
+        </Typography>
+      </CardContent>
+      <CardActions disableSpacing>
+        <IconButton aria-label="add to favorites">
+          <SendIcon onClick ={()=>navigateToAnswerQuestion(schedule)}/>
+        </IconButton>
+        <IconButton aria-label="share">
+          <ShareIcon />
+        </IconButton>
+        <ExpandMore
+          expand={expanded}
+          onClick={handleExpandClick}
+          aria-expanded={expanded}
+          aria-label="show more"
+        >
+          <ExpandMoreIcon />
+        </ExpandMore>
+      </CardActions>
+      <Collapse in={expanded} timeout="auto" unmountOnExit>
+        <CardContent>
+
+
+         
+
+          <TextField
+          id="outlined-multiline-static"
+          label="Answe here"
+          multiline
+          rows={4}
+          defaultValue={schedule.answer}
+          onChange={updateAnswer}
+        />
+
+
+
+        </CardContent>
+      </Collapse>
+    </Card>
               </Grid>
             ))}
           </Grid>) : (
-        <p>No tutor schedules found.</p>
+        <p>No  questions found.</p>
       )}
         </Container>
       </main>

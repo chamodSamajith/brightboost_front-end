@@ -150,7 +150,7 @@ else{
         if (resData.messageCode === '1000') {
           setLoggedin(true);
           window.sessionStorage.setItem("IsLoggedIn", true);
-           navigate('/Dashboard')
+          navigate('/TutorProfile', { state: { userData: resData } });
           Swal.fire({
             position: 'middle',
             icon: 'success',

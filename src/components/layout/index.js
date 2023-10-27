@@ -55,6 +55,21 @@ const menuItems2 = [
   },
 ];
 
+const menuItems3 = [
+  {
+    code: "SESSION",
+    label: "Session",
+    icon: <People />,
+    path: "/session",
+  },
+  {
+    code: "QL",
+    label: "Quetion Answering",
+    icon: <Paid />,
+    path: "/TutorQuestions",
+  },
+];
+
 const Layout = () => {
 
   const isStudent = (window.sessionStorage.getItem("user"));
@@ -87,7 +102,7 @@ const Layout = () => {
       <SideDrawer
         toggleDrawer={toggleDrawer}
         isOpen={isDrawerOpen}
-        menuItems={isStudent? menuItems2 : menuItems}
+        menuItems={isStudent? menuItems2: menuItems}
         visible ={isStudent? menuItems2 : menuItems}
       />
 
