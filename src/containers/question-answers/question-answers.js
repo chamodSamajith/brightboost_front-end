@@ -14,7 +14,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
-
+import LeaveSession from '../session/leaveSession/leaveSession'
 
 import { useNavigate } from 'react-router-dom'; 
 import Swal from 'sweetalert2';
@@ -24,7 +24,9 @@ const defaultTheme = createTheme();
 export default function Questions() {
   const location = useLocation();
    
-
+  const [sessionid, setSessionId] = useState(new URLSearchParams(window.location.search).get(
+    "id"
+  ));
     const [sessionID, setsessionID] = useState('');
     const [TutorID, setTutorID] = useState('');
     const [Question, setQuestion] = useState('');
@@ -104,6 +106,7 @@ export default function Questions() {
     };
     return (
         <ThemeProvider theme={defaultTheme}>
+             <LeaveSession sessionID={sessionid} />
             <Container component="main" maxWidth="xs">
                 <CssBaseline />
                 <Box

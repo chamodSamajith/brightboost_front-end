@@ -21,7 +21,7 @@ const CreateSession =  ({ open, onClose , getSessions }) => {
     const [sessionEnd, setsessionEnd] = useState();
     const [sessionSubject, setsessionSubject] = useState();
     const [maxParticipants, setmaxParticipants] = useState();
-    const [teachers, setTeachers] = useState([{_id:"652ce16cd7819360bcb15ef8",tutorName:"Chamika Visal"}]);
+    const [teachers, setTeachers] = useState([{_id:"653a3d6b51728c4cfa66ca5b",tutorName:"Sharon"}]);
     const [subjects, setSubjects] = useState([{_id:"652cf021622b1cfef18e3e44",subjectName:"History"},{_id:"652cf021622b1cfef18e3e44",subjectName:"IT"},{_id:"652cf021622b1cfef18e3e44",subjectName:"Geography"},{_id:"652cf021622b1cfef18e3e44",subjectName:"Maths"}]);
 
     // useEffect(() => {
@@ -31,7 +31,7 @@ const CreateSession =  ({ open, onClose , getSessions }) => {
 
     const sessionCreateSave=async()=>{
         const data={
-            userId:"652ce16cd7819360bcb15ef8",
+            userId:"653a3d6b51728c4cfa66ca5b",
             sessionName:sessionName,
             startTime:sessionStart,
             endTime:sessionEnd,

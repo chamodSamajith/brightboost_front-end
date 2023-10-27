@@ -104,7 +104,7 @@ function Album() {
   const navigateToAskQuestion =(schedule)=>{
     console.log(schedule);
     const userData = location.state && location.state.userData;
-    navigate('/question-answers', { state: { sessionData: schedule, studentemail: userDataNew.StudentEmail} });
+    navigate('/question-answers/?id='+schedule._id, { state: { sessionData: schedule, studentemail: userDataNew.StudentEmail} });
     localStorage.setItem('email', userDataNew.StudentEmail);
   }
   

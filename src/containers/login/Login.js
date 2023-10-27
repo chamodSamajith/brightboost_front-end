@@ -99,14 +99,17 @@ if(user =='Student'){
     data: loginBody,
   })
     .then((response) => {
-      console.log('Arrived to login request');
+      console.log('Arrived to login request',response.data);
       if (response.status === 200) {
         setResData(response.data);
         console.log('this is resData status ' + resData.messageCode);
         if (resData.messageCode === '1000') {
           setLoggedin(true);
           window.sessionStorage.setItem("IsLoggedIn", true);
+          window.sessionStorage.setItem("user_id", response.data.data._id);
+          window.sessionStorage.setItem("type", 'student');
           window.sessionStorage.setItem("user", true);
+          window.sessionStorage.setItem("email", response.data.data.StudentEmail);
           navigate('/StudentProfile', { state: { userData: resData } });
           //  navigate('/Dashboard')
           Swal.fire({
@@ -150,6 +153,8 @@ else{
         if (resData.messageCode === '1000') {
           setLoggedin(true);
           window.sessionStorage.setItem("IsLoggedIn", true);
+          window.sessionStorage.setItem("user_id", response.data.data._id);
+          window.sessionStorage.setItem("type", 'tutor');
           navigate('/TutorProfile', { state: { userData: resData } });
           Swal.fire({
             position: 'middle',
