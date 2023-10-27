@@ -28,9 +28,9 @@ const menuItems = [
   },
   {
     code: "TUTOR",
-    label: "TUTOR",
+    label: "Tutor",
     icon: <Public />,
-    path: "/page3",
+    path: "/tutor",
   },
   {
     code: "QL",
@@ -64,7 +64,8 @@ const Layout = () => {
 
 
   const toggleDrawer = () => {
-    setIsDrawerOpen(!isDrawerOpen)
+    // setIsDrawerOpen(!isDrawerOpen)
+    setIsDrawerOpen(false)
   }
 
   const onHandleLogout=()=>{

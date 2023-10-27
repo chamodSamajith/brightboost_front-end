@@ -51,13 +51,14 @@ const SideDrawer = ({ menuItems }) => {
   const [open, setOpen] = useState(true);
 
   const handleToggle = () => {
+    //commmet drawer behaviour
     //temporary disabled
     //setOpen(!open);
   };
 
   const handleScroll = () => {
     window.scrollTo(0, 0);
-    setOpen(false);
+    setOpen(true);//make false for drawer behaviour
   };
 
   return (
@@ -72,7 +73,7 @@ const SideDrawer = ({ menuItems }) => {
         }}
       >
         <Typography variant="h6" color="#681F6E" fontWeight={"bold"}>
-          ADMIN
+          BrightBoost
         </Typography>
         <IconButton onClick={handleToggle}>
           <ChevronLeft />
