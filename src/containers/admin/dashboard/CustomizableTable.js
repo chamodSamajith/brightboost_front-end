@@ -11,29 +11,29 @@ function preventDefault(event) {
   event.preventDefault();
 }
 
-export default function CustomizableTable({rows, columns}) {
+export default function CustomizableTable({rows, columns, columnWidths}) {
   return (
     <React.Fragment>
       <Title>Recent Questions</Title>
-      <Table size="small">
+      <Table size="small" id="report-table">
         <TableHead>
           <TableRow>
             {columns.map((column, index) => (
-                <TableCell key={index}>{column}</TableCell>
+                <TableCell key={index} style={{ width: columnWidths[index] }}>{column}</TableCell>
             ))}
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
+          {rows.map((row, index) => (
             <TableRow key={row._id}>
-                <TableCell>{row._id}</TableCell>
-                <TableCell>{row.question}</TableCell>
-                <TableCell>{row.answer}</TableCell>
-                <TableCell>{row.comment}</TableCell>
-                <TableCell>{row.subjectId}</TableCell>
-                <TableCell>{row.tutorId}</TableCell>
-                <TableCell align="right">{`${row.studentId}`}</TableCell>
-                <TableCell>{row.sessionId}</TableCell>
+                <TableCell key={index} style={{ width: columnWidths[index] }}>{row._id}</TableCell>
+                <TableCell key={index} style={{ width: columnWidths[index] }}>{row.question}</TableCell>
+                <TableCell key={index} style={{ width: columnWidths[index] }}>{row.answer}</TableCell>
+                <TableCell key={index} style={{ width: columnWidths[index] }}>{row.comment}</TableCell>
+                <TableCell key={index} style={{ width: columnWidths[index] }}>{row.subjectId}</TableCell>
+                <TableCell key={index} style={{ width: columnWidths[index] }}>{row.tutorId}</TableCell>
+                <TableCell key={index} style={{ width: columnWidths[index] }}>{`${row.studentId}`}</TableCell>
+                <TableCell key={index} style={{ width: columnWidths[index] }}>{row.sessionId}</TableCell>
             </TableRow>
           ))}
         </TableBody>
