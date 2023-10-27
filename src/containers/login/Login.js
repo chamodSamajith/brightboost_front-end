@@ -21,6 +21,8 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControl from '@mui/material/FormControl';
 import FormHelperText from '@mui/material/FormHelperText';
 import FormLabel from '@mui/material/FormLabel';
+import { useLocation } from 'react-router-dom';
+
 
 import { Navigate } from 'react-router-dom';
 
@@ -104,7 +106,9 @@ if(user =='Student'){
         if (resData.messageCode === '1000') {
           setLoggedin(true);
           window.sessionStorage.setItem("IsLoggedIn", true);
-           navigate('/Dashboard')
+          window.sessionStorage.setItem("user", true);
+          navigate('/StudentProfile', { state: { userData: resData } });
+          //  navigate('/Dashboard')
           Swal.fire({
             position: 'middle',
             icon: 'success',

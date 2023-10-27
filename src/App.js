@@ -6,6 +6,10 @@ import './App.css';
 import Login from "./containers/login/Login.js"
 import PublicRoutes from "./routes/PublicRoutes.js"
 import Dashboard from "./containers/dashboard/Dashboard.js"
+import StudentSignUp from "./containers/StudentSignUp/StudentSignUp.js"
+import StudentProfile from "./containers/StudentProfile/StudentProfile.js"
+import StudentQuestions from "./containers/StudentQuestions/StudentQuestions.js"
+import TutorSignUp from "./containers/TutorSignUp/TutorSignUp.js"
 import Layout from "./components/layout/index.js"
 import Admin from "./containers/admin/Admin.js"
 import Session from "./containers/session/Session.js"
@@ -15,6 +19,8 @@ import toast, { Toaster } from 'react-hot-toast';
 import QuestionsAnswers from './containers/question-answers/question-answers';
 
 function App({props}) {
+  
+
   return (
     <div>
     <Router>
@@ -32,6 +38,10 @@ function App({props}) {
        <Route path="/session" element={<Session/>}/>
        <Route path="/join-session/" element={<JoinSession/>}/>
        <Route path="/question-answers/" element={<QuestionsAnswers/>}/>
+       <Route path="/StudentSignUp/" element={<StudentSignUp/>}/>
+       <Route path="/TutorSignUp/" element={<TutorSignUp/>}/>
+       <Route path="/StudentProfile/" element={<StudentProfile/>}/>
+       <Route path="/StudentQuestions/" element={<StudentQuestions/>}/>
        </Route>
 
 
